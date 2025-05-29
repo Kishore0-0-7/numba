@@ -4,10 +4,11 @@ from bs4 import BeautifulSoup
 def fetch_books_data():
     #replace https://www.examplebookswebsite.com with some website of your choice
     url = "https://www.examplebookswebsite.com"
-    response = requests.get(url)
 
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
+    # Try block runs if no error occurs
+    try:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')    #parses raw HTML content to BeautifulSoup object named soup
         book_list = soup.find_all('div', class_='book-item')
 
         for book in book_list:
@@ -17,11 +18,10 @@ def fetch_books_data():
 
             print(f"Title: {title}")
             print(f"Author: {author}")
-            print(f"Price: {price}")
-            print()
-
-    else:
-        print("Failed to fetch data. Status code:", response.status_code)
-
+            print(f"Price: {price}\n")
+            
+    except Exception as e:
+        print(f"An error occurred: {e}")
+# To run this file as a script
 if __name__ == "__main__":
     fetch_books_data()
